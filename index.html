@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gold Store</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #111827, #030712);
+    color: white;
+    font-family: Arial, sans-serif;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 430px;
+
+    background: #1f2937;
+    border-radius: 22px;
+    padding: 28px;
+
+    box-shadow: 0 20px 60px rgba(0,0,0,.6);
+}
+
+h1 {
+    text-align: center;
+    margin: 0;
+    font-size: 30px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #9ca3af;
+    margin: 10px 0 25px;
+}
+
+.package {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: #111827;
+    border: 2px solid #374151;
+
+    padding: 18px;
+    margin: 12px 0;
+
+    border-radius: 15px;
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.package:hover {
+    border-color: #6b7280;
+}
+
+.package.selected {
+    border-color: #f59e0b;
+}
+
+.gold {
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.price {
+    color: #fbbf24;
+    font-weight: bold;
+}
+
+.pay {
+    width: 100%;
+
+    margin-top: 15px;
+    padding: 16px;
+
+    border: none;
+    border-radius: 14px;
+
+    background: #f59e0b;
+    color: #111827;
+
+    font-size: 17px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.pay:hover {
+    background: #fbbf24;
+}
+
+.result {
+    display: none;
+
+    margin-top: 20px;
+    padding: 18px;
+
+    border-radius: 14px;
+
+    background: #064e3b;
+    border: 1px solid #10b981;
+
+    text-align: center;
+}
+
+.success {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.test {
+    margin-top: 18px;
+
+    text-align: center;
+    font-size: 11px;
+    color: #9ca3af;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🪙 Gold Store</h1>
+
+    <p class="subtitle">
+        Выберите количество Gold
+    </p>
+
+
+    <div
+        class="package selected"
+        onclick="choose(this, '100 Gold', '1.99 €')"
+    >
+        <span class="gold">🪙 100 Gold</span>
+        <span class="price">1.99 €</span>
+    </div>
+
+
+    <div
+        class="package"
+        onclick="choose(this, '500 Gold', '7.99 €')"
+    >
+        <span class="gold">🪙 500 Gold</span>
+        <span class="price">7.99 €</span>
+    </div>
+
+
+    <div
+        class="package"
+        onclick="choose(this, '1000 Gold', '14.99 €')"
+    >
+        <span class="gold">🪙 1000 Gold</span>
+        <span class="price">14.99 €</span>
+    </div>
+
+
+    <button class="pay" onclick="payment()">
+        Оплатить
+    </button>
+
+
+    <div class="result" id="result">
+
+        <div class="success">
+            ✅
+        </div>
+
+        <strong>
+            Платёж завершён
+        </strong>
+
+        <br><br>
+
+        <span id="details"></span>
+
+    </div>
+
+
+    <div class="test">
+        Тестовая страница — реальные деньги не списываются.
+    </div>
+
+</div>
+
+
+<script>
+
+let selectedGold = "100 Gold";
+let selectedPrice = "1.99 €";
+
+
+function choose(element, gold, price) {
+
+    document
+        .querySelectorAll(".package")
+        .forEach(function(item) {
+            item.classList.remove("selected");
+        });
+
+    element.classList.add("selected");
+
+    selectedGold = gold;
+    selectedPrice = price;
+}
+
+
+function payment() {
+
+    document.getElementById("result").style.display = "block";
+
+    document.getElementById("details").innerHTML =
+        selectedGold +
+        " — " +
+        selectedPrice;
+
+}
+
+</script>
+
+</body>
+</html>
