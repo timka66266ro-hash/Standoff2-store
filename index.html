@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Standoff 2 Store</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #fff;
+
+    background:
+        radial-gradient(
+            circle at 50% -15%,
+            #34455f 0,
+            transparent 45%
+        ),
+        linear-gradient(
+            180deg,
+            #0b1018,
+            #06080d
+        );
+}
+
+header {
+    height: 70px;
+    padding: 0 6%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: #0c1017;
+    border-bottom: 1px solid #252d39;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.logo span {
+    color: #f2b83f;
+}
+
+.demo {
+    padding: 7px 11px;
+
+    border-radius: 6px;
+
+    color: #ffd86d;
+    background: #211b0d;
+
+    border: 1px solid #594619;
+
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.hero {
+    min-height: 310px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 50px 20px;
+
+    background:
+        linear-gradient(
+            rgba(8,10,15,.35),
+            rgba(8,10,15,.95)
+        ),
+        radial-gradient(
+            circle at center,
+            #3c4b5f,
+            #10151d 55%,
+            #080a0f
+        );
+}
+
+.hero h1 {
+    margin: 0;
+
+    font-size:
+        clamp(38px, 7vw, 68px);
+
+    letter-spacing: 3px;
+}
+
+.hero p {
+    color: #aab2bf;
+    font-size: 15px;
+}
+
+.container {
+    width: min(1050px, 92%);
+
+    margin:
+        -30px auto
+        60px;
+
+    position: relative;
+}
+
+.card {
+    background: #11161f;
+
+    border: 1px solid #252e3c;
+
+    border-radius: 14px;
+
+    padding: 25px;
+
+    margin-bottom: 18px;
+}
+
+.title {
+    font-size: 19px;
+
+    font-weight: 800;
+
+    margin-bottom: 18px;
+}
+
+.id-row {
+    display: flex;
+
+    gap: 10px;
+}
+
+input {
+    flex: 1;
+
+    height: 52px;
+
+    padding: 0 16px;
+
+    border-radius: 9px;
+
+    border: 1px solid #303a4a;
+
+    background: #090d13;
+
+    color: #fff;
+
+    outline: none;
+
+    font-size: 15px;
+}
+
+input:focus {
+    border-color: #dcae3e;
+}
+
+.btn {
+    height: 52px;
+
+    padding: 0 25px;
+
+    border: 0;
+
+    border-radius: 9px;
+
+    background: #e5ad38;
+
+    color: #17130b;
+
+    font-weight: 900;
+
+    cursor: pointer;
+}
+
+.profile {
+    display: none;
+
+    margin-top: 15px;
+
+    padding: 15px;
+
+    background: #090d13;
+
+    border-radius: 10px;
+
+    border: 1px solid #252e3c;
+}
+
+.profile-row {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+}
+
+.avatar {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 10px;
+
+    background: #242e3d;
+
+    font-size: 22px;
+}
+
+.username {
+    font-weight: 900;
+}
+
+.id {
+    color: #7f8998;
+
+    font-size: 12px;
+
+    margin-top: 4px;
+}
+
+.gold-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 14px;
+}
+
+.gold {
+    text-align: center;
+
+    padding: 25px 15px;
+
+    border-radius: 12px;
+
+    background: #0a0e14;
+
+    border: 2px solid #283241;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.gold:hover {
+    transform:
+        translateY(-3px);
+}
+
+.gold.selected {
+    border-color: #e6b33e;
+
+    box-shadow:
+        0 0 25px
+        rgba(230,179,62,.12);
+}
+
+.coin {
+    font-size: 45px;
+}
+
+.amount {
+    margin-top: 8px;
+
+    font-size: 21px;
+
+    font-weight: 900;
+}
+
+.price {
+    margin-top: 8px;
+
+    color: #f1c653;
+
+    font-weight: bold;
+}
+
+.checkout {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+.small {
+    color: #7f8998;
+
+    font-size: 13px;
+}
+
+.total {
+    font-size: 30px;
+
+    font-weight: 900;
+
+    margin-top: 4px;
+}
+
+.pay {
+    min-width: 220px;
+
+    height: 54px;
+
+    border: 0;
+
+    border-radius: 9px;
+
+    background: #e5ad38;
+
+    color: #17130b;
+
+    font-size: 16px;
+
+    font-weight: 900;
+
+    cursor: pointer;
+}
+
+.pay:disabled {
+    opacity: .35;
+
+    cursor: not-allowed;
+}
+
+.result {
+    display: none;
+
+    text-align: center;
+
+    padding: 30px;
+
+    background: #0c2119;
+
+    border: 1px solid #236f50;
+
+    border-radius: 14px;
+}
+
+.check {
+    width: 65px;
+    height: 65px;
+
+    margin:
+        auto auto 15px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #123c2c;
+
+    color: #36d38b;
+
+    font-size: 32px;
+}
+
+.result h2 {
+    margin-bottom: 10px;
+}
+
+.result p {
+    color: #a8cbbd;
+
+    line-height: 1.7;
+}
+
+footer {
+    text-align: center;
+
+    padding: 25px;
+
+    color: #687283;
+
+    font-size: 11px;
+}
+
+@media (max-width: 800px) {
+
+    .gold-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+
+    header {
+        padding: 0 18px;
+    }
+
+    .id-row {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .gold-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .checkout {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .pay {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        STANDOFF <span>2</span>
+    </div>
+
+    <div class="demo">
+        FAN STORE • DEMO
+    </div>
+
+</header>
+
+
+
+<section class="hero">
+
+    <div>
+
+        <h1>
+            STANDOFF 2
+        </h1>
+
+        <p>
+            Пополнение Gold — фанатский интерфейс
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<main class="container">
+
+
+    <!-- ACCOUNT -->
+
+    <section class="card">
+
+        <div class="title">
+            Аккаунт
+        </div>
+
+
+        <div class="id-row">
+
+            <input
+                id="accountId"
+                placeholder="Введите ID аккаунта"
+                maxlength="24"
+            >
+
+
+            <button
+                class="btn"
+                onclick="findAccount()"
+            >
+                Найти
+            </button>
+
+        </div>
+
+
+
+        <div
+            class="profile"
+            id="profile"
+        >
+
+            <div class="profile-row">
+
+                <div class="avatar">
+                    👤
+                </div>
+
+
+                <div>
+
+                    <div
+                        class="username"
+                        id="username"
+                    ></div>
+
+
+                    <div
+                        class="id"
+                        id="playerId"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- GOLD -->
+
+    <section class="card">
+
+        <div class="title">
+            Выберите Gold
+        </div>
+
+
+        <div class="gold-grid">
+
+
+            <!-- 100 -->
+
+            <div
+                class="gold selected"
+                onclick="
+                    selectGold(
+                        this,
+                        100,
+                        '1.99 €'
+                    )
+                "
+            >
+
+                <div class="coin">
+                    🪙
+                </div>
+
+                <div class="amount">
+                    100 Gold
+                </div>
+
+                <div class="price">
+                    1.99 €
+                </div>
+
+            </div>
+
+
+
+            <!-- 500 -->
+
+            <div
+                class="gold"
+                onclick="
+                    selectGold(
+                        this,
+                        500,
+                        '7.99 €'
+                    )
+                "
+            >
+
+                <div class="coin">
+                    🪙
+                </div>
+
+                <div class="amount">
+                    500 Gold
+                </div>
+
+                <div class="price">
+                    7.99 €
+                </div>
+
+            </div>
+
+
+
+            <!-- 1000 -->
+
+            <div
+                class="gold"
+                onclick="
+                    selectGold(
+                        this,
+                        1000,
+                        '14.99 €'
+                    )
+                "
+            >
+
+                <div class="coin">
+                    🪙
+                </div>
+
+                <div class="amount">
+                    1000 Gold
+                </div>
+
+                <div class="price">
+                    14.99 €
+                </div>
+
+            </div>
+
+
+
+            <!-- 3000 -->
+
+            <div
+                class="gold"
+                onclick="
+                    selectGold(
+                        this,
+                        3000,
+                        '35.00 €'
+                    )
+                "
+            >
+
+                <div class="coin">
+                    🪙
+                </div>
+
+                <div class="amount">
+                    3000 Gold
+                </div>
+
+                <div class="price">
+                    35.00 €
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- CHECKOUT -->
+
+    <section class="card">
+
+        <div class="checkout">
+
+
+            <div>
+
+                <div class="small">
+                    Итого
+                </div>
+
+
+                <div
+                    class="total"
+                    id="total"
+                >
+                    1.99 €
+                </div>
+
+            </div>
+
+
+
+            <button
+                class="pay"
+                id="payButton"
+                onclick="payment()"
+                disabled
+            >
+                Оплатить
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- RESULT -->
+
+    <section
+        class="result"
+        id="result"
+    >
+
+        <div class="check">
+            ✓
+        </div>
+
+
+        <h2>
+            Платёж завершён
+        </h2>
+
+
+        <p
+            id="resultText"
+        ></p>
+
+    </section>
+
+
+</main>
+
+
+
+<footer>
+
+    STANDOFF 2 • FAN STORE • DEMO
+
+    <br>
+
+    Неофициальный фанатский интерфейс.
+    Реальные платежи не проводятся.
+
+</footer>
+
+
+
+<script>
+
+let selectedGold = 100;
+
+let selectedPrice = "1.99 €";
+
+let accountFound = false;
+
+
+/* Случайный ник */
+
+function randomNickname() {
+
+    const names = [
+
+        "Shadow",
+        "Reaper",
+        "Ghost",
+        "Hunter",
+        "Phantom",
+        "Sniper",
+        "Legend",
+        "Vortex",
+        "Blaze",
+        "Raven",
+        "Frost",
+        "Venom",
+        "Storm",
+        "Nova",
+        "Inferno"
+
+    ];
+
+
+    const name =
+        names[
+            Math.floor(
+                Math.random() *
+                names.length
+            )
+        ];
+
+
+    const number =
+        Math.floor(
+            1000 +
+            Math.random() *
+            9000
+        );
+
+
+    return (
+        name +
+        "_" +
+        number
+    );
+}
+
+
+/* Найти аккаунт */
+
+function findAccount() {
+
+    const input =
+        document.getElementById(
+            "accountId"
+        );
+
+
+    const id =
+        input.value.trim();
+
+
+    if (!id) {
+
+        alert(
+            "Введите ID аккаунта"
+        );
+
+        return;
+    }
+
+
+    accountFound = true;
+
+
+    document.getElementById(
+        "profile"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "username"
+    ).textContent =
+        randomNickname();
+
+
+    document.getElementById(
+        "playerId"
+    ).textContent =
+        "ID: " + id;
+
+
+    document.getElementById(
+        "payButton"
+    ).disabled =
+        false;
+
+}
+
+
+/* Выбор Gold */
+
+function selectGold(
+    element,
+    amount,
+    price
+) {
+
+    document
+        .querySelectorAll(".gold")
+        .forEach(
+            function(card) {
+
+                card.classList.remove(
+                    "selected"
+                );
+
+            }
+        );
+
+
+    element.classList.add(
+        "selected"
+    );
+
+
+    selectedGold =
+        amount;
+
+
+    selectedPrice =
+        price;
+
+
+    document.getElementById(
+        "total"
+    ).textContent =
+        price;
+
+}
+
+
+/* DEMO-оплата */
+
+function payment() {
+
+    if (!accountFound) {
+
+        alert(
+            "Сначала введите ID аккаунта"
+        );
+
+        return;
+    }
+
+
+    const id =
+        document.getElementById(
+            "accountId"
+        ).value;
+
+
+    document.getElementById(
+        "resultText"
+    ).innerHTML =
+
+        "ID аккаунта: <b>" +
+        id +
+        "</b><br>" +
+
+        "Gold: <b>" +
+        selectedGold +
+        "</b><br>" +
+
+        "Сумма: <b>" +
+        selectedPrice +
+        "</b><br><br>" +
+
+        "Тестовая транзакция завершена.";
+
+
+    const result =
+        document.getElementById(
+            "result"
+        );
+
+
+    result.style.display =
+        "block";
+
+
+    result.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+
+}
+
+</script>
+
+</body>
+</html>
